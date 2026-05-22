@@ -16,3 +16,12 @@ public class Main {
             "https://api.telegram.org/bot" + TOKEN + "/";
 
     private static int updateId = 0;
+    public static void main(String[] args) {
+
+    System.out.println("Bot iniciado...");
+
+    while (true) {
+
+        try {
+
+            String response = getUpdates();

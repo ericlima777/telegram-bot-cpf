@@ -13,7 +13,7 @@ public class Main {
     private static final String TOKEN = "TOKEN";
 
     private static final String API_URL =
-            "https://api.telegram.org/bot" + TOKEN + "/";
+    "https://api.telegram.org/bot" + TOKEN + "/";
 
     private static int updateId = 0;
     public static void main(String[] args) {
@@ -42,3 +42,23 @@ while (matcher.find()) {
     String message = matcher.group(3);
 
     message = message.replace("\\/", "/");
+
+    System.out.println("Mensagem recebida: " + message);
+
+    String resposta;
+    
+    if (message.equals("/start")) {
+    
+        resposta =
+                "🤖 Olá! Envie um CPF para validação.";
+    
+    } else {
+    
+        if (validarCPF(message)) {
+            resposta = "✅ CPF válido!";
+        } else {
+            resposta = "❌ CPF inválido!";
+        }
+    }
+    
+    sendMessage(chatId, resposta);

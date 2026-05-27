@@ -25,3 +25,20 @@ public class Main {
         try {
 
             String response = getUpdates();
+            
+ #Parte 4
+     Pattern pattern = Pattern.compile(
+        "\"update_id\":(\\d+).?\"chat\":\\{\"id\":(-?\\d+).?\"text\":\"(.*?)\"",
+        Pattern.DOTALL
+);
+
+Matcher matcher = pattern.matcher(response);
+
+while (matcher.find()) {
+
+    updateId = Integer.parseInt(matcher.group(1)) + 1;
+
+    String chatId = matcher.group(2);
+    String message = matcher.group(3);
+
+    message = message.replace("\\/", "/");

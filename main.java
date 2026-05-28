@@ -16,49 +16,58 @@ public class Main {
     "https://api.telegram.org/bot" + TOKEN + "/";
 
     private static int updateId = 0;
+
     public static void main(String[] args) {
 
-    System.out.println("Bot iniciado...");
+        System.out.println("Bot iniciado...");
 
-    while (true) {
+        while (true) {
 
-        try {
+            try {
 
-            String response = getUpdates();
-            
- #Parte 4
-     Pattern pattern = Pattern.compile(
-        "\"update_id\":(\\d+).?\"chat\":\\{\"id\":(-?\\d+).?\"text\":\"(.*?)\"",
-        Pattern.DOTALL
-);
+                String response = getUpdates();
 
-Matcher matcher = pattern.matcher(response);
+                // Parte 4
+                Pattern pattern = Pattern.compile(
+                    "\"update_id\":(\\d+).*?\"chat\":\\{\"id\":(-?\\d+).*?\"text\":\"(.*?)\"",
+                    Pattern.DOTALL
+                );
 
-while (matcher.find()) {
+                Matcher matcher = pattern.matcher(response);
 
-    updateId = Integer.parseInt(matcher.group(1)) + 1;
+                while (matcher.find()) {
 
-    String chatId = matcher.group(2);
-    String message = matcher.group(3);
+                    updateId = Integer.parseInt(matcher.group(1)) + 1;
 
-    message = message.replace("\\/", "/");
+                    String chatId = matcher.group(2);
+                    String message = matcher.group(3);
 
-    System.out.println("Mensagem recebida: " + message);
+                    message = message.replace("\\/", "/");
 
-    String resposta;
-    
-    if (message.equals("/start")) {
-    
-        resposta =
-                "🤖 Olá! Envie um CPF para validação.";
-    
-    } else {
-    
-        if (validarCPF(message)) {
-            resposta = "✅ CPF válido!";
-        } else {
-            resposta = "❌ CPF inválido!";
+                    System.out.println("Mensagem recebida: " + message);
+
+                    String resposta;
+
+                    if (message.equals("/start")) {
+
+                        resposta =
+                                "🤖 Olá! Envie um CPF para validação.";
+
+                    } else {
+
+                        if (validarCPF(message)) {
+                            resposta = "✅ CPF válido!";
+                        } else {
+                            resposta = "❌ CPF inválido!";
+                        }
+                    }
+
+                    sendMessage(chatId, resposta);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-    
-    sendMessage(chatId, resposta);
+}
